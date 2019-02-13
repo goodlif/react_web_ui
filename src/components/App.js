@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import SearchBar from "./SearchBar";
 import ButtonEmphasis from "./ButtonEmphasis";
 import RadioGroup from "./RadioGroup";
@@ -6,7 +6,7 @@ import Slider from "./Slider";
 import IconThumbs from "./Icon";
 import RatingClear from "./Rating"
 
-class App extends React.Component {
+class App extends Component {
   onSearchSubmit(term) {
     console.log(term);
   }
