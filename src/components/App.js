@@ -1,41 +1,46 @@
-import React, {Component} from "react";
-import SearchBar from "./SearchBar";
-import ButtonEmphasis from "./ButtonEmphasis";
-import RadioGroup from "./RadioGroup";
-import Slider from "./Slider";
-import IconThumbs from "./Icon";
-import RatingClear from "./Rating"
-
+import React, { Component } from 'react'
+import { Route, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Features from './Features';
+import FeatureList from './FeatureList';
+import * as actions from '../actions';
+ 
 class App extends Component {
-  onSearchSubmit(term) {
-    console.log(term);
+  renderButton() {
+      if(this.props.auth) {
+        return <button onClick={() => this.props.changeAuth(false)}>Sign Out</button>;
+      } else {
+        return <button onClick={() => this.props.changeAuth(true)}>Sign In</button>;
+      }
+  }  
+  
+  renderHeader() {
+        return ( 
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li><Link to="/post">Post</Link></li>
+            <li>
+              {this.renderButton()}
+            </li>
+          </ul>
+        );
+    }
+    
+    render() {
+      return (
+        <div>
+          {this.renderHeader()}
+          <Route path="/post" component={ Features } />
+          <Route path="/" exact component={ FeatureList } />
+        </div>
+      )
+    }
   }
-
-  render() {
-    return (
-      <div>
-        <div className="ui container" style={{ marginTop: "10px" }}>
-          <SearchBar onSubmit={this.onSearchSubmit} />
-        </div>
-        <div className="ui container" style={{ marginTop: "10px" }}>
-        <RadioGroup/>
-        </div>
-        <div className="ui container" style={{ marginTop: "10px" }}>
-        <Slider/>
-        </div>
-        <div className="ui container" style={{ marginTop: "10px" }}>
-        <ButtonEmphasis/>
-        </div>
-        <div className="ui container" style={{ marginTop: "10px" }}>
-        <IconThumbs/>
-        </div>
-        <div className="ui container" style={{ marginTop: "10px" }}>
-        <RatingClear/>
-        </div>
-      </div>
-      
-    );
+  
+  function mapStateToProps(state) {
+    return { auth: state.auth}
   }
-}
-
-export default App;
+  export default connect(mapStateToProps, actions)(App);
+  
